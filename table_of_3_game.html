@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Multiplication Game</title>
+    <link rel="stylesheet" type="text/css" href="style2.css">
+    <script src="script_table_3.js"></script>
+    <script>
+      var answerAttempts = 0;
+      var correctCount = 0;
+      var wrongCount = 0;
+      var totalAttempts = 0;
+      var correctCount = 0;
+      var wrongCount = 0;
+
+
+      function generateProblem() {
+        var num1 = 3;
+        var num2 = Math.floor(Math.random() * 10);
+        document.getElementById("problem").innerHTML = num1 + " x " + num2;
+        document.getElementById("answer-input").value = "";
+        document.getElementById("answer-feedback").innerHTML = "";
+        document.getElementById("answer-button").disabled = false;
+        answerAttempts = 0;
+      }
+
+      function checkAnswer() {
+  if (totalAttempts === 5) {
+    endGame();
+    return;
+  }
+  
+  var userAnswer = parseInt(document.getElementById("answer-input").value);
+  var correctAnswer = 3 * parseInt(document.getElementById("problem").innerHTML.split(" ")[2]);
+  
+  if (userAnswer === correctAnswer) {
+    document.getElementById("answer-feedback").innerHTML = "Congratulations! You got it!";
+    document.getElementById("answer-feedback").style.color = "#0303fc";
+    document.getElementById("restart-button").style.display = "block";
+    correctCount++;
+    document.getElementById("correct-count").innerHTML = "Correct: " + correctCount;
+  } else {
+    answerAttempts++;
+    if (answerAttempts === 1) {
+      document.getElementById("answer-feedback").innerHTML = "Sorry, the correct answer is " + correctAnswer + ".";
+      document.getElementById("answer-feedback").style.color = "#E74C3C";
+      document.getElementById("restart-button").style.display = "block";
+      wrongCount++;
+      document.getElementById("wrong-count").innerHTML = "Wrong: " + wrongCount;
+    } else {
+      document.getElementById("answer-feedback").innerHTML = "Sorry, try again.";
+      document.getElementById("answer-feedback").style.color = "#E74C3C";
+      wrongCount++;
+      document.getElementById("wrong-count").innerHTML = "Wrong: " + wrongCount;
+    }
+  }
+  document.getElementById("answer-input").value = "";
+
+  totalAttempts++;
+}
+
+
+      
+     function restartGame() {
+  document.getElementById("answer-input").disabled = false;
+  document.getElementById("answer-button").disabled = false;
+  document.getElementById("restart-button").style.display = "none";
+  document.getElementById("answer-feedback").innerHTML = "";
+  document.getElementById("answer-input").value = "";
+  generateProblem();
+  document.getElementById("correct-count").innerHTML = "Correct: " + correctCount;
+  document.getElementById("wrong-count").innerHTML = "Wrong: " + wrongCount;
+}
+
+      function endGame() {
+  document.getElementById("answer-input").disabled = true;
+  document.getElementById("answer-button").disabled = true;
+  document.getElementById("restart-button").style.display = "block";
+  document.getElementById("answer-feedback").innerHTML = "Game has finished. You answered " + (correctCount + wrongCount) + " questions. " + "You got " + correctCount + " correct and " + wrongCount + " wrong.";
+  
+  totalAttempts = 0;
+  correctCount = 0;
+  wrongCount = 0;
+}
+
+    </script>
+  </head>
+  <body onload="generateProblem()">
+    <div class="container">
+      <div class="header">
+        <h1>Multiplication Game</
+</h1>
+      </div>
+      <div class="game">
+        <div class="problem-container">
+          <p id="problem" class="problem"></p>
+        </div>
+        <div class="answer-container">
+          <input type="text" id="answer-input" placeholder="Enter your answer..." onkeypress="if(event.keyCode==13){checkAnswer();}">
+          <button id="answer-button" onclick="checkAnswer()">Check Answer</button>
+        </div>
+        <div class="feedback-container">
+          <p id="answer-feedback" class="answer-feedback"></p>
+        </div>
+        <div class="button-container">
+          <button id="restart-button" onclick="restartGame()" style="display: none;">Next Question</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="feedback-container">
+      <p id="answer-feedback" class="answer-feedback"></p>
+      <p id="correct-count" class="count">Correct: 0</p>
+      <p id="wrong-count" class="count">Wrong: 0</p>
+    </div>
+    
+  </body>
+</html>
